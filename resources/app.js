@@ -130,8 +130,8 @@ function beep() {
 }
 
 function resetBarang() {
-    namaBarang.textContent = "";
-    stokBarang.textContent = "";
+    namaBarang.textContent = "-";
+    stokBarang.textContent = "-";
 
     perubahanInput.value = "";
 
