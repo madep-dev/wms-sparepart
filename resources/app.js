@@ -27,7 +27,9 @@ let currentRow = null;
 
 function startScanner() {
     scanLagi.classList.add("hidden");
-    resetBarang();
+
+    namaInput.value = "";
+    stokInput.value = "";
 
     html5QrCode = new Html5Qrcode("reader");
 
@@ -129,19 +131,7 @@ function beep() {
     audio.play();
 }
 
-function resetBarang() {
-    namaBarang.textContent = "-";
-    stokBarang.textContent = "-";
-
-    perubahanInput.value = "";
-
-    currentRow = null;
-}
-
-scanLagi.addEventListener("click", () => {
-    resetBarang();
-    startScanner();
-});
+scanLagi.addEventListener("click", startScanner);
 updateBtn.addEventListener("click", updateStok);
 
 startScanner();
