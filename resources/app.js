@@ -1,17 +1,26 @@
 const hasilInput = document.getElementById("hasil");
 const btnKirim = document.getElementById("btnKirim");
 
-let lastScan = null;
+let html5QrCode;
+
+function startScanner() {
+    html5QrCode = new Html5Qrcode("reader");
+
+    const config = {
+        fps: 15,
+        qrbox: { width: 220, height: 220 },
+    };
+
+    html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+}
 
 function onScanSuccess(decodedText) {
-    // anti double scan
-    if (decodedText === lastScan) return;
-
-    lastScan = decodedText;
-
     hasilInput.value = decodedText;
 
     beep();
+
+    // STOP CAMERA
+    html5QrCode.stop();
 }
 
 function beep() {
@@ -20,17 +29,6 @@ function beep() {
     );
     audio.play();
 }
-
-const scanner = new Html5QrcodeScanner(
-    "reader",
-    {
-        fps: 15,
-        qrbox: { width: 220, height: 220 },
-    },
-    false,
-);
-
-scanner.render(onScanSuccess);
 
 btnKirim.addEventListener("click", () => {
     const barcode = hasilInput.value;
@@ -42,3 +40,9 @@ btnKirim.addEventListener("click", () => {
 
     alert("Kirim: " + barcode);
 });
+
+startScanner();
+
+document.getElementById("scanLagi").onclick = () => {
+    startScanner();
+};
