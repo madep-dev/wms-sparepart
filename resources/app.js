@@ -49,9 +49,6 @@ function onScanSuccess(decodedText) {
         scanLagi.classList.remove("hidden");
     });
 
-    namaInput.value = "";
-    stokInput.value = "";
-
     ambilData(decodedText);
 }
 
@@ -131,7 +128,19 @@ function beep() {
     audio.play();
 }
 
-scanLagi.addEventListener("click", startScanner);
+function resetBarang() {
+    namaBarang.textContent = "";
+    stokBarang.textContent = "";
+
+    perubahanInput.value = "";
+
+    currentRow = null;
+}
+
+scanLagi.addEventListener("click", () => {
+    resetBarang();
+    startScanner();
+});
 updateBtn.addEventListener("click", updateStok);
 
 startScanner();
