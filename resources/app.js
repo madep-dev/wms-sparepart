@@ -49,6 +49,9 @@ function onScanSuccess(decodedText) {
         scanLagi.classList.remove("hidden");
     });
 
+    namaInput.value = "";
+    stokInput.value = "";
+
     ambilData(decodedText);
 }
 
@@ -89,9 +92,6 @@ function updateStok() {
 
     fetch(API_URL, {
         method: "POST",
-        // headers: {
-        //     "Content-Type": "application/json",
-        // },
         body: JSON.stringify({
             row: currentRow,
             perubahan: perubahan,
