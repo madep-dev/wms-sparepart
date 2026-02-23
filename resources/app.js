@@ -27,6 +27,7 @@ let currentRow = null;
 
 function startScanner() {
     scanLagi.classList.add("hidden");
+    resetBarang();
 
     html5QrCode = new Html5Qrcode("reader");
 
