@@ -1,9 +1,12 @@
 const hasilInput = document.getElementById("hasil");
 const btnKirim = document.getElementById("btnKirim");
+const scanLagi = document.getElementById("scanLagi");
 
 let html5QrCode;
 
 function startScanner() {
+    scanLagi.classList.add("hidden");
+
     html5QrCode = new Html5Qrcode("reader");
 
     const config = {
@@ -18,9 +21,11 @@ function onScanSuccess(decodedText) {
     hasilInput.value = decodedText;
 
     beep();
+    navigator.vibrate(200);
 
-    // STOP CAMERA
-    html5QrCode.stop();
+    html5QrCode.stop().then(() => {
+        scanLagi.classList.remove("hidden");
+    });
 }
 
 function beep() {
@@ -29,6 +34,10 @@ function beep() {
     );
     audio.play();
 }
+
+scanLagi.addEventListener("click", () => {
+    startScanner();
+});
 
 btnKirim.addEventListener("click", () => {
     const barcode = hasilInput.value;
@@ -42,7 +51,3 @@ btnKirim.addEventListener("click", () => {
 });
 
 startScanner();
-
-document.getElementById("scanLagi").onclick = () => {
-    startScanner();
-};
