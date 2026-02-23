@@ -1,68 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html>
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Test Scan Barcode</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Scan Barcode</title>
+        <script src="https://unpkg.com/html5-qrcode"></script>
         <style>
-            table,
-            th,
-            td {
-                border: 1px solid #ccc;
-            }
-
-            th,
-            td {
-                padding: 8px;
+            body {
+                font-family: Arial;
                 text-align: center;
+            }
+            #reader {
+                width: 320px;
+                margin: auto;
+            }
+            input {
+                padding: 10px;
+                width: 250px;
+                font-size: 18px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
             }
         </style>
     </head>
-    <body class="bg-gray-50">
-        <div class="flex justify-center">
-            <div class="w-full md:max-w-xl pt-20">
-                <div class="space-y-3">
-                    <label
-                        for="first_name"
-                        class="block mb-2 text-sm font-medium text-gray-900"
-                        >Input Barcode</label
-                    >
-                    <input
-                        type="text"
-                        id="barcodeInput"
-                        name="barcodeInput"
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Input barcode"
-                        autofocus
-                    />
-                    <!-- 
-                    <button
-                        type="button"
-                        id="btnTambah"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                        onclick="tambahData()"
-                    >
-                        Tambah
-                    </button> -->
-                </div>
 
-                <div class="relative overflow-x-auto mt-10">
-                    <table
-                        class="w-full text-sm text-left rtl:text-right text-gray-500"
-                    >
-                        <thead class="text-xs text-gray-700 uppercase bg-white">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">No</th>
-                                <th scope="col" class="px-6 py-3">Kode</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dataTable"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <body>
+        <h2>Scan Barcode</h2>
 
-        <script src="./resources/app.js"></script>
+        <div id="reader"></div>
+
+        <br />
+
+        <input type="text" id="hasil" placeholder="Hasil barcode" />
+
+        <br /><br />
+
+        <button onclick="kirim()">Kirim</button>
+
+        <script>
+            function onScanSuccess(decodedText) {
+                document.getElementById("hasil").value = decodedText;
+
+                // optional: stop setelah berhasil
+                html5QrcodeScanner.clear();
+            }
+
+            let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
+                fps: 15,
+                qrbox: 250,
+            });
+
+            html5QrcodeScanner.render(onScanSuccess);
+
+            function kirim() {
+                alert("Barcode: " + document.getElementById("hasil").value);
+            }
+        </script>
     </body>
 </html>
