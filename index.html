@@ -8,6 +8,7 @@
 
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/html5-qrcode"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
     <body class="bg-gray-100">
@@ -56,6 +57,19 @@
                 >
                     Update Stok
                 </button>
+
+                <div
+                    id="loading"
+                    class="hidden flex items-center justify-center mt-3"
+                >
+                    <div
+                        class="animate-spin rounded-full h-6 w-6 border-4 border-gray-300 border-t-blue-600"
+                    ></div>
+
+                    <span class="ml-2 text-sm text-gray-600">
+                        Menyimpan...
+                    </span>
+                </div>
             </div>
         </div>
 

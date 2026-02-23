@@ -8,6 +8,19 @@ const perubahanInput = document.getElementById("perubahan");
 
 const scanLagi = document.getElementById("scanLagi");
 const updateBtn = document.getElementById("updateStok");
+const loading = document.getElementById("loading");
+
+function setLoading(state) {
+    if (state) {
+        loading.classList.remove("hidden");
+        updateBtn.disabled = true;
+        updateBtn.classList.add("opacity-50");
+    } else {
+        loading.classList.add("hidden");
+        updateBtn.disabled = false;
+        updateBtn.classList.remove("opacity-50");
+    }
+}
 
 let html5QrCode;
 let currentRow = null;
@@ -44,7 +57,12 @@ function ambilData(id) {
         .then((res) => res.json())
         .then((data) => {
             if (!data.found) {
-                alert("Barang tidak ditemukan");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Barang tidak ditemukan",
+                    text: "Periksa barcode",
+                });
+
                 return;
             }
 
@@ -59,15 +77,21 @@ function updateStok() {
     const perubahan = Number(perubahanInput.value);
 
     if (!currentRow) {
-        alert("Scan barang dulu");
+        Swal.fire({
+            icon: "warning",
+            title: "Peringatan",
+            text: "Scan barcode dulu",
+        });
         return;
     }
 
+    setLoading(true);
+
     fetch(API_URL, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        // headers: {
+        //     "Content-Type": "application/json",
+        // },
         body: JSON.stringify({
             row: currentRow,
             perubahan: perubahan,
@@ -77,9 +101,25 @@ function updateStok() {
         .then((res) => {
             stokInput.value = res.stok_baru;
 
-            alert("Stok berhasil diupdate");
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil",
+                text: "Stok berhasil diperbarui",
+                timer: 1500,
+                showConfirmButton: false,
+            });
 
             perubahanInput.value = "";
+        })
+        .catch((err) => {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text: "Update stok gagal",
+            });
+        })
+        .finally(() => {
+            setLoading(false);
         });
 }
 
